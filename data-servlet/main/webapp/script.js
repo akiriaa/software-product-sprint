@@ -87,14 +87,21 @@ async function getRandomQuoteUsingAsyncAwait() {
 }
 
 function getMessages() {
-  fetch('/data').then(response => response.json()).then((messages) => {
+  fetch('/data-servlet').then(response => response.json()).then((stats) => {
+    // stats is an object, not a string, so we have to
+    // reference its fields to create HTML content
 
-    console.log(messages);
-    const messagesContainer = document.getElementById('messages-container');
-    messagesContainer.innerText = messages;
-    
+    const statsListElement = document.getElementById('data-container');
+    statsListElement.innerHTML = '';
+    statsListElement.appendChild(
+        createListElement('Start time: ' + stats.startTime));
+    statsListElement.appendChild(
+        createListElement('Current time: ' + stats.currentTime));
+    statsListElement.appendChild(
+        createListElement('Max memory: ' + stats.maxMemory));
+    statsListElement.appendChild(
+        createListElement('Used memory: ' + stats.usedMemory));
   });
-  
 }
 
 /** Creates an <li> element containing text. */
