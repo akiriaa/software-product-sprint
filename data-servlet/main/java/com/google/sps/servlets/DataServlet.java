@@ -29,12 +29,8 @@ import javax.servlet.http.HttpServletResponse;
 public class DataServlet extends HttpServlet {
     //private ArrayList<String> messages
     @Override
-
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ArrayList<String> messages = new ArrayList<String>();
-        messages.add("A");
-        messages.add("B");
-        messages.add("C");
         
         Gson gson = new Gson();
         String json = gson.toJson(messages);
@@ -42,8 +38,29 @@ public class DataServlet extends HttpServlet {
         response.setContentType("application/json;");
         response.getWriter().println(json);
     }
-    
-    
+
+    //@Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // Get the input from the form.
+        String messages = message(request);
+        //String[] words = text.split("\\s*,\\s*");
+        // Respond with the result.
+        response.setContentType("text/html;");
+        messages.add(message)
+        //response.getWriter().println(Arrays.toString(words));
+
+
+        // String json = convertToJson(comments);
+        // response.setContentType("text/html;");
+        // response.getWriter().println(json);
+
+    }
+
+    private String getMessage(HttpServletRequest request){
+        String comment = request.getParameter("text-input");
+        return comment;
+    }
+}
     
    
 
@@ -76,4 +93,3 @@ public class DataServlet extends HttpServlet {
     // }
 
 
-}

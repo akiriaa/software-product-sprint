@@ -86,16 +86,16 @@ async function getRandomQuoteUsingAsyncAwait() {
   document.getElementById('quote-container').innerText = quote;
 }
 
-function getMessages() {
-  fetch('/data').then(response => response.json()).then((messages) => {
+// function getMessages() {
+//   fetch('/data').then(response => response.json()).then((messages) => {
 
-    console.log(messages);
-    const messagesContainer = document.getElementById('messages-container');
-    messagesContainer.innerText = messages;
+//     console.log(messages);
+//     const messagesContainer = document.getElementById('messages-container');
+//     messagesContainer.innerText = messages;
     
-  });
+//   });
   
-}
+// }
 
 /** Creates an <li> element containing text. */
 function createListElement(text) {
