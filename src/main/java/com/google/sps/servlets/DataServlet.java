@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,21 +27,59 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.lang.String;
+//import com.google.sps.data.Task;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-    //private ArrayList<String> messages
     ArrayList<String> messages = new ArrayList<String>();
-
+    //DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Query query = new Query("Message").addSort("message-container", SortDirection.DESCENDING);
         
+        Gson gson = new Gson();
+        String json = gson.toJson(messages);
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        PreparedQuery results = datastore.prepare(query);
+
+        List<String> messages = new ArrayList<>();
+        for (Entity entity : results.asIterable()) {
+            //long id = messageEnt.getKey().getId();
+            String message = (String) entity.getProperty("message-container");
+            //long timestamp = (long) messageEnt.getProperty("timestamp");
+            response.getOutputStream().println(message);
+            //String messages = new Message(message-container);
+            //messages.add(message);
+        }
+    //          response.setContentType("application/json;");
+
+
+        // Query query = new Query("Task").addSort("timestamp", SortDirection.DESCENDING);
+
+        // DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        // PreparedQuery results = datastore.prepare(query);
+
+        // List<Task> tasks = new ArrayList<>();
+        // for (Entity entity : results.asIterable()) {
+        //   long id = entity.getKey().getId();
+        //   String title = (String) entity.getProperty("title");
+        //   long timestamp = (long) entity.getProperty("timestamp");
+
+        //   Task task = new Task(id, title, timestamp);
+        //   tasks.add(task);
+    // }
         // Gson gson = new Gson();
-        // String json = gson.toJson(messages);
-        String json = convertToJson(messages);
+      
+        // String json = convertToJson(messages);
 
         response.setContentType("text/html;");
         response.getWriter().println(json);
@@ -57,21 +96,20 @@ public class DataServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // Get the input from the form.
         String message = getMessage(request);
-        response.setContentType("text/html;");
+        //String message = request.getMessage("message-container");
+        response.setContentType("text/html;"); //
         //System.out.println("do post message");
         messages.add(message);
 
+        Entity messageEnt = new Entity("message");
+        messageEnt.setProperty("message-container", message);
+
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        datastore.put(messageEnt);
         //redirect
         response.sendRedirect("/index.html");
 
     }
-
-    // private String getParameter(HttpServletRequest request, String message, String defaultValue) {
-    // String value = request.getParameter(message);
-    // if (value == null) {
-    //   return defaultValue;
-    // }
-    // return value;
 
     private String getMessage(HttpServletRequest request){ //, String name, String defaultValue
         String message = request.getParameter("message-container");
@@ -80,79 +118,6 @@ public class DataServlet extends HttpServlet {
 }
     
    
-/*
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-    printRequest(response.getWriter(), request);
-  }
-
-  private void printRequest(PrintWriter out, HttpServletRequest request) {
-    out.println("request URL: " + request.getRequestURL());
-    out.println("<br/>");
-
-    out.println("request URI: " + request.getRequestURI());
-    out.println("<br/>");
-
-    out.println("content length: " + request.getContentLength());
-    out.println("<br/>");
-
-    out.println("content type: " + request.getContentType());
-    out.println("<br/>");
-
-    out.println("protocol: " + request.getProtocol());
-    out.println("<br/>");
-
-    out.println("client IP: " + request.getRemoteAddr());
-    out.println("<br/>");
-
-    out.println("server name: " + request.getServerName());
-    out.println("<br/>");
-
-    out.println("character encoding: " + request.getCharacterEncoding());
-    out.println("<br/>");
-
-    out.println("headers:");
-    out.println("<ul>");
-    Enumeration<String> headerNames = request.getHeaderNames();
-    while (headerNames.hasMoreElements()) {
-      String headerName = headerNames.nextElement();
-      out.print("<li>" + headerName + ": " + request.getHeader(headerName) + "</li>");
-    }
-    out.println("</ul>");
-
-    out.println("parameters:");
-    out.println("<ul>");
-    Enumeration<String> parameterNames = request.getParameterNames();
-    while (parameterNames.hasMoreElements()) {
-      String parameterName = parameterNames.nextElement();
-      out.print("<li>" + parameterName + ": " + request.getParameter(parameterName) + "</li>");
-    }
-    out.println("</ul>");
-  }
-*/
-
-
-//   @Override
-//   public void init() {
-//     messages = new ArrayList<>();
-//     messages.add("1");
-//     messages.add("2");
-//     messages.add("3");
-//   }
-  
-
-//   @Override
-//   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-//     // Convert to JSON
-//     String json = convertToJsonUsingGson(messages);
-
-//     //Send response as JSON
-//     response.setContentType("application/json;");
-//     response.getWriter().println(json);
-//   }
-
     // private String convertToJsonUsingGson(DataServlet messages) {
     //     Gson gson = new Gson();
     //     String json = gson.toJson(messages);

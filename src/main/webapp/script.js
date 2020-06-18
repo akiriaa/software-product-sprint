@@ -86,20 +86,25 @@ async function getRandomQuoteUsingAsyncAwait() {
   document.getElementById('quote-container').innerText = quote;
 }
 
-// function getMessages() {
-//   fetch('/data').then(response => response.json()).then((messages) => {
-
-//     console.log(messages);
-//     const messagesContainer = document.getElementById('messages-container');
-//     messagesContainer.innerText = messages;
-    
-//   });
+function getMessages() {
+    fetch('/data').then(response => response.json()).then((messages) => {
+        const messagesContainer = document.getElementById('message-container');//.innerText = message; //was const
+        //messagesContainer.innerText = ' ' //messages
+        messages.forEach((mes) => {
+            messagesContainer.appendChild(createListElement(mes));
+        //     var mes = document.createElement("m")
+        //     mes.innerText = messages    
+        });
+        console.log(mes);
+  });
   
-// }
+}
+
 
 /** Creates an <li> element containing text. */
 function createListElement(text) {
-  const liElement = document.createElement('li');
-  liElement.innerText = text;
-  return liElement;
+    //var ul = document.getElementById("comment");
+    const liElement = document.createElement('li');
+    liElement.innerText = text;
+    return liElement;
 }
