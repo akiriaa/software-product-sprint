@@ -33,8 +33,8 @@ var slideIndex = 1;
 showSlides(slideIndex);
 
     // Next/previous controls
-function plusSlides(n) {
-    showSlides(slideIndex += n);
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
 }
 
 // Thumbnail image controls
@@ -47,16 +47,16 @@ function showSlides(n) {
     var slides = document.getElementsByClassName("mySlides");
     var dots = document.getElementsByClassName("dot");
     if (n > slides.length) {
-        slideIndex = 1
+        slideIndex = 1;
     }
     if (n < 1) {
-            slideIndex = slides.length
+        slideIndex = slides.length;
     }
     for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
+        slides[i].style.display = "none";
     }
     for (i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "");
+        dots[i].className = dots[i].className.replace(" active", "");
     }
         slides[slideIndex - 1].style.display = "block";
         dots[slideIndex - 1].className += " active";
@@ -87,23 +87,22 @@ async function getRandomQuoteUsingAsyncAwait() {
 }
 
 function getMessages() {
-    fetch('/data').then(response => response.json()).then((messages) => {
-        const messagesContainer = document.getElementById('message-container');//.innerText = message; //was const
-        //messagesContainer.innerText = ' ' //messages
-        messages.forEach((mes) => {
-            messagesContainer.appendChild(createListElement(mes));
-        //     var mes = document.createElement("m")
-        //     mes.innerText = messages    
+    fetch('/data').then(response => response.json()).then((tasks) => {
+        console.log("Here"); 
+        const taskListElement = document.getElementById('comments-list');
+        console.log(tasks);
+        tasks.forEach((task) => {
+            const taskElem = document.createElement('li');
+            taskElem.appendChild(createListElement(task.name + ': ' + task.comment));  
+            // taskElem.appendChild(createListElement(task.comment));  
+            taskElem.appendChild(createListElement('Posted: ' + task.timestamp));  
+            taskListElement.appendChild(taskElem);
         });
-        console.log(mes);
   });
-  
 }
-
 
 /** Creates an <li> element containing text. */
 function createListElement(text) {
-    //var ul = document.getElementById("comment");
     const liElement = document.createElement('li');
     liElement.innerText = text;
     return liElement;
