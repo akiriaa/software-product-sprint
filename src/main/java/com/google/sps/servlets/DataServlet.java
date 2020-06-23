@@ -51,7 +51,6 @@ public class DataServlet extends HttpServlet {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery results = datastore.prepare(query);
 
-   
         List<Task> tasks = new ArrayList<>();
         for (Entity entity : results.asIterable()) {
             long id = entity.getKey().getId();
@@ -61,25 +60,27 @@ public class DataServlet extends HttpServlet {
             Task task = new Task(id, name, comment, timestamp);
             tasks.add(task);
         }
+
         Gson gson = new Gson();
         response.setContentType("application/json;");
         response.getWriter().println(gson.toJson(tasks));
-    
+        
         UserService userService = UserServiceFactory.getUserService();
         if (userService.isUserLoggedIn()) {
             String userEmail = userService.getCurrentUser().getEmail();
-            String urlToRedirectToAfterUserLogsOut = "/";
+            String urlToRedirectToAfterUserLogsOut = "/contact.html";
             String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
 
             response.getWriter().println("<p>Hello " + userEmail + "!</p>");
             response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
         }
         else {
-            String urlToRedirectToAfterUserLogsIn = "/";
-            String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
+            String urlToRedirectToAfterUserLogsIn = "/contact.html";
+            String loginUrl = userService.createLoginURL("contact.html");
 
             response.getWriter().println("<p>Hello stranger.</p>");
             response.getWriter().println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
+            
         }
     }
  
@@ -95,10 +96,9 @@ public class DataServlet extends HttpServlet {
 
         // Only logged-in users can post messages
         if (!userService.isUserLoggedIn()) {
-            response.sendRedirect("/shoutbox");
+            response.sendRedirect("/contact.html");
             return;
         }
-        
         String name = request.getParameter("name");
         String comment = request.getParameter("comment");
         long timestamp = System.currentTimeMillis();
@@ -111,7 +111,6 @@ public class DataServlet extends HttpServlet {
         datastore.put(taskEntity);
         response.sendRedirect("/contact.html");
     }
-
 }
 
 

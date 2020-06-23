@@ -47,7 +47,7 @@ function showSlides(n) {
     var slides = document.getElementsByClassName("mySlides");
     var dots = document.getElementsByClassName("dot");
     if (n > slides.length) {
-        slideIndex = 1
+        slideIndex = 1;
     }
     if (n < 1) {
             slideIndex = slides.length
@@ -87,17 +87,17 @@ async function getRandomQuoteUsingAsyncAwait() {
 }
 
 function getMessages() {
-    fetch('/data').then(response => response.json()).then((messages) => {
-        const messagesContainer = document.getElementById('message-container');//.innerText = message; //was const
-        //messagesContainer.innerText = ' ' //messages
-        messages.forEach((mes) => {
-            messagesContainer.appendChild(createListElement(mes));
-        //     var mes = document.createElement("m")
-        //     mes.innerText = messages    
+     fetch('/data').then(response => response.json()).then((tasks) => {
+        const taskListElement = document.getElementById('comments-list');
+        console.log(tasks);
+        tasks.forEach((task) => {
+            const taskElem = document.createElement('li');
+            taskElem.appendChild(createListElement(task.name + ': ' + task.comment));  
+            // taskElem.appendChild(createListElement(task.comment));  
+            taskElem.appendChild(createListElement('Posted: ' + task.timestamp));  
+            taskListElement.appendChild(taskElem);
         });
-        console.log(mes);
-  });
-  
+    });
 }
 
 
@@ -107,4 +107,52 @@ function createListElement(text) {
     const liElement = document.createElement('li');
     liElement.innerText = text;
     return liElement;
+}
+
+function onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    
+    document.querySelector('#content').innerText = googleUser.getBasicProfile().getGivenName();
+
+    var id_token = googleUser.getAuthResponse().id_token;
+    console.log("ID Token: " + id_token);
+    isUserLoggedIn();
+}
+
+function isUserLoggedIn(){
+    var com = document.getElementById("form");
+    var inn = document.getElementById("signin");
+    var out = document.getElementById("signout");
+    if (com.style.display==="none") {
+        com.style.display = "block";
+        out.style.display = "block";
+        inn.style.display = "none";
+        console.log("logged in") ;
+
+    } else {
+        com.style.display = "none";
+        inn.style.display = "block";
+        out.style.display = "none";
+        console.log("not logged in");
+    }
+}
+
+
+
+function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+
+    var com = document.getElementById("form");
+    var inn = document.getElementById("signin");
+    var out = document.getElementById("signout");
+    com.style.display = "none";
+    inn.style.display = "block";
+    out.style.display = "none";
 }
