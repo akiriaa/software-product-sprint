@@ -57,6 +57,7 @@ public class DataServlet extends HttpServlet {
             String name = (String) entity.getProperty("name");
             String comment = (String) entity.getProperty("comment");
             long timestamp = (long) entity.getProperty("timestamp");
+
             Task task = new Task(id, name, comment, timestamp);
             tasks.add(task);
         }
@@ -70,16 +71,15 @@ public class DataServlet extends HttpServlet {
             String userEmail = userService.getCurrentUser().getEmail();
             String urlToRedirectToAfterUserLogsOut = "/contact.html";
             String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
-
-            response.getWriter().println("<p>Hello " + userEmail + "!</p>");
-            response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
+            response.getWriter().println("Hello " + userEmail + "!");
+            response.getWriter().println("Logout <a href=\"" + logoutUrl + "\">here</a>.");
         }
         else {
             String urlToRedirectToAfterUserLogsIn = "/contact.html";
             String loginUrl = userService.createLoginURL("contact.html");
 
-            response.getWriter().println("<p>Hello stranger.</p>");
-            response.getWriter().println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
+            response.getWriter().println("Hello stranger.");
+            response.getWriter().println("Login <a href=\"" + loginUrl + "\">here</a>.");
             
         }
     }
@@ -99,17 +99,21 @@ public class DataServlet extends HttpServlet {
             response.sendRedirect("/contact.html");
             return;
         }
-        String name = request.getParameter("name");
-        String comment = request.getParameter("comment");
-        long timestamp = System.currentTimeMillis();
-        Entity taskEntity = new Entity("Task");
-        taskEntity.setProperty("name", name);
-        // taskEntity.setProperty("Email: ", email);
-        taskEntity.setProperty("comment", comment);
-        taskEntity.setProperty("timestamp", timestamp);
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        datastore.put(taskEntity);
-        response.sendRedirect("/contact.html");
+        else{
+            String userEmail = userService.getCurrentUser().getEmail();
+            String name = request.getParameter("name");
+            String comment = request.getParameter("comment");
+            long timestamp = System.currentTimeMillis();
+            Entity taskEntity = new Entity("Task");
+            taskEntity.setProperty("name", name);
+            taskEntity.setProperty("Email: ", userEmail);
+            taskEntity.setProperty("comment", comment);
+            taskEntity.setProperty("timestamp", timestamp);
+            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+            datastore.put(taskEntity);
+            response.sendRedirect("/contact.html");
+        }
+       
     }
 }
 

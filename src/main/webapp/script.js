@@ -93,7 +93,7 @@ function getMessages() {
         tasks.forEach((task) => {
             const taskElem = document.createElement('li');
             taskElem.appendChild(createListElement(task.name + ': ' + task.comment));  
-            // taskElem.appendChild(createListElement(task.comment));  
+            taskElem.appendChild(createListElement(task.userEmail));  
             taskElem.appendChild(createListElement('Posted: ' + task.timestamp));  
             taskListElement.appendChild(taskElem);
         });
@@ -117,6 +117,7 @@ function onSignIn(googleUser) {
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
     
     document.querySelector('#content').innerText = googleUser.getBasicProfile().getGivenName();
+    document.querySelector('#email').innerText = googleUser.getBasicProfile().getEmail();
 
     var id_token = googleUser.getAuthResponse().id_token;
     console.log("ID Token: " + id_token);
