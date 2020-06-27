@@ -1,18 +1,48 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="UTF-8">
-    <title>My Portfolio</title>
+    <title>Akiria's Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&family=Mali:wght@300&display=swap" rel="stylesheet">
     <script src="script.js"></script>
-  </head>
-  <body>
+</head>
+
+<body>
+    <header>
+        <div>
+            <nav class="vertical-menu">
+                <ul>
+                    <li><a class="active" href="index.html">Home</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="about_me.html">About Me</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
     <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
+
+        <div class="wrapper">
+            <a href="contact.html">
+                <div class="item">
+
+                    <div class="polaroid">
+                        <img src="images/ppme.png" height="500px" width="500px">
+                    </div>
+                </div>
+            </a>
+        </div>
+        <h1 id="text"><b>Hi! I'm Akiria Anderson</b></h1>
+
+        <div id="connects">
+            <a href="https://github.com/akrria" target="_blank"><img src="images/git.png" alt="github" height="50px" width="50px"></a>
+            <a href="https://linkedin.com/in/akiria-anderson" target="_blank"><img src="images/linkedin.png" alt="linkedin" height="50px" width="50px"></a>
+            <a href="https://www.facebook.com/akiria.anderson.96" target="_blank"><img src="images/facebook.png" alt="facebook" height="50px" width="50px"></a>
+        </div>
     </div>
-  </body>
+</body>
+
 </html>
