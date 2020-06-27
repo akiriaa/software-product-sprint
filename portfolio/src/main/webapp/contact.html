@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contact</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&family=Mali:wght@300&display=swap" rel="stylesheet">
+    <script src="script.js"></script>
+</head>
+
+<body onload="getMessages()">
+    <header>
+        <div>
+            <nav class="vertical-menu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="about_me.html">About Me</a></li>
+                    <li><a class="active" href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+    <div id="contactcontent">
+        
+        <div id="contact">
+            <h1 id="text"><b>Contact</b></h1>
+            <h3>Email: <a href="mailto:akiria.anderson@gmail.com">Akiria Anderson</a></h3>
+        </div>
+
+        
+        <div id="connect">
+            <h1 id="text"><b>Connect</b></h1>
+            <a href="https://github.com/akrria" target="_blank"><img src="images/git.png" alt="github" height="50px" width="50px"></a>
+            <a href="https://linkedin.com/in/akiria-anderson" target="_blank"><img src="images/linkedin.png" alt="linkedin" height="50px" width="50px"></a>
+            <a href="https://www.facebook.com/akiria.anderson.96" target="_blank"><img src="images/facebook.png" alt="facebook" height="50px" width="50px"></a>
+        </div>
+
+        <div id="form">
+            <div id="lefty">
+                <h3>Leave a comment!</h3>
+                <form action="/data" method="POST">
+                    <div class="row">
+                        <div class="col-75">
+                            <input type="text" id="name" name="name" placeholder="Your name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-75">
+                            <input type="text" id="email" name="email" placeholder="Your email">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-75">
+                            <textarea id="comment" name="comment" placeholder="Write something :)" style="height:200px"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <input type="submit" value="Submit">
+                    </div>
+                </form>
+            </div>
+            <div id="righty">
+                <ul id="comments-list"><ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
