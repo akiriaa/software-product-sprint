@@ -1,0 +1,14 @@
+
+input[type=submit] {
+    background-color: powderblue;
+    color: #000;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: left;
+}
+ 
+input[type=submit]:hover {
+    background-color: #afffb6;
+}
